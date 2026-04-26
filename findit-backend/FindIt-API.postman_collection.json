@@ -1,0 +1,860 @@
+{
+	"info": {
+		"_postman_id": "findit-api-collection",
+		"name": "FindIt API Collection",
+		"description": "Complete API collection for FindIt lost and found application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://findit-production-18b6.up.railway.app",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "POST /api/auth/signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"Test1234!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signup",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "signup"]
+						},
+						"description": "Register a new user account"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/auth/signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Test1234!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signin",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "signin"]
+						},
+						"description": "Sign in to get JWT token"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "POST /api/items/lost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Lost iPhone 13",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Electronics",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Black iPhone 13 with blue case, lost near main entrance",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2024-01-15T10:30:00",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Main Library, 2nd Floor",
+									"type": "text"
+								},
+								{
+									"key": "coordinates",
+									"value": "{\"lat\": 30.0444, \"lng\": 31.2357}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/items/lost",
+							"host": ["{{base_url}}"],
+							"path": ["api", "items", "lost"]
+						},
+						"description": "Report a lost item"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/items/found",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Found iPhone 13",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Electronics",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Black iPhone 13 with blue case",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2024-01-15T14:30:00",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Main Library, 2nd Floor",
+									"type": "text"
+								},
+								{
+									"key": "coordinates",
+									"value": "{\"lat\": 30.0444, \"lng\": 31.2357}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/items/found",
+							"host": ["{{base_url}}"],
+							"path": ["api", "items", "found"]
+						},
+						"description": "Report a found item"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/items/search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/items/search?q=iphone&category=Electronics",
+							"host": ["{{base_url}}"],
+							"path": ["api", "items", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "iphone"
+								},
+								{
+									"key": "category",
+									"value": "Electronics"
+								}
+							]
+						},
+						"description": "Search items by text and category"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/items/nearby",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/items/nearby?lat=30.0444&lng=31.2357&radius=5",
+							"host": ["{{base_url}}"],
+							"path": ["api", "items", "nearby"],
+							"query": [
+								{
+									"key": "lat",
+									"value": "30.0444"
+								},
+								{
+									"key": "lng",
+									"value": "31.2357"
+								},
+								{
+									"key": "radius",
+									"value": "5"
+								}
+							]
+						},
+						"description": "Find items near a location"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/items/my",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/items/my",
+							"host": ["{{base_url}}"],
+							"path": ["api", "items", "my"]
+						},
+						"description": "Get current user's items"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/items/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/items/ITEM_ID",
+							"host": ["{{base_url}}"],
+							"path": ["api", "items", "ITEM_ID"]
+						},
+						"description": "Get item details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/items/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated iPhone 13\",\n  \"description\": \"Updated description\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/items/ITEM_ID",
+							"host": ["{{base_url}}"],
+							"path": ["api", "items", "ITEM_ID"]
+						},
+						"description": "Update item details"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/items/:id/resolve",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/items/ITEM_ID/resolve",
+							"host": ["{{base_url}}"],
+							"path": ["api", "items", "ITEM_ID", "resolve"]
+						},
+						"description": "Mark item as resolved"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Claims",
+			"item": [
+				{
+					"name": "POST /api/claims",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"itemId\": \"ITEM_ID\",\n  \"message\": \"I believe this is my lost iPhone. I can provide proof of ownership.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims"]
+						},
+						"description": "Create a claim for an item"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/claims/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/claims/CLAIM_ID",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "CLAIM_ID"]
+						},
+						"description": "Get claim details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/claims/:id/approve",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/claims/CLAIM_ID/approve",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "CLAIM_ID", "approve"]
+						},
+						"description": "Approve a claim (item owner only)"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/claims/:id/reject",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/claims/CLAIM_ID/reject",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "CLAIM_ID", "reject"]
+						},
+						"description": "Reject a claim (item owner only)"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/claims/:id/complete",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/claims/CLAIM_ID/complete",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "CLAIM_ID", "complete"]
+						},
+						"description": "Complete a claim (item returned)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "GET /api/notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications",
+							"host": ["{{base_url}}"],
+							"path": ["api", "notifications"]
+						},
+						"description": "Get user notifications"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/notifications/:id/read",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/NOTIFICATION_ID/read",
+							"host": ["{{base_url}}"],
+							"path": ["api", "notifications", "NOTIFICATION_ID", "read"]
+						},
+						"description": "Mark notification as read"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/notifications/read-all",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/read-all",
+							"host": ["{{base_url}}"],
+							"path": ["api", "notifications", "read-all"]
+						},
+						"description": "Mark all notifications as read"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "GET /api/admin/analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/analytics",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "analytics"]
+						},
+						"description": "Get admin analytics data"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/admin/reports",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/reports",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "reports"]
+						},
+						"description": "Get flagged items reports"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/admin/reports/:id/remove",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/reports/ITEM_ID/remove",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "reports", "ITEM_ID", "remove"]
+						},
+						"description": "Remove flagged item from reports"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/admin/flag/:id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/flag/ITEM_ID",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "flag", "ITEM_ID"]
+						},
+						"description": "Flag an item for admin review"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/admin/promote",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/promote",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "promote"]
+						},
+						"description": "Promote user to admin role"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "History",
+			"item": [
+				{
+					"name": "GET /api/history/activity",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/history/activity",
+							"host": ["{{base_url}}"],
+							"path": ["api", "history", "activity"]
+						},
+						"description": "Get user activity history"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/history/claims",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/history/claims",
+							"host": ["{{base_url}}"],
+							"path": ["api", "history", "claims"]
+						},
+						"description": "Get user claims history"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/history/:id/archive",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/history/ITEM_ID/archive",
+							"host": ["{{base_url}}"],
+							"path": ["api", "history", "ITEM_ID", "archive"]
+						},
+						"description": "Archive an item from history"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Evidence",
+			"item": [
+				{
+					"name": "POST /api/evidence/:claimId",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "evidence",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/evidence/CLAIM_ID",
+							"host": ["{{base_url}}"],
+							"path": ["api", "evidence", "CLAIM_ID"]
+						},
+						"description": "Upload evidence for a claim"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/evidence/:claimId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/evidence/CLAIM_ID",
+							"host": ["{{base_url}}"],
+							"path": ["api", "evidence", "CLAIM_ID"]
+						},
+						"description": "Get evidence for a claim"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Finder Responses",
+			"item": [
+				{
+					"name": "POST /api/finder-responses",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"itemId\": \"ITEM_ID\",\n  \"message\": \"I found this item near the entrance. I can provide more details.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/finder-responses",
+							"host": ["{{base_url}}"],
+							"path": ["api", "finder-responses"]
+						},
+						"description": "Create a finder response for an item"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/finder-responses/by-item/:itemId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/finder-responses/by-item/ITEM_ID",
+							"host": ["{{base_url}}"],
+							"path": ["api", "finder-responses", "by-item", "ITEM_ID"]
+						},
+						"description": "Get all finder responses for an item"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/finder-responses/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/finder-responses/RESPONSE_ID",
+							"host": ["{{base_url}}"],
+							"path": ["api", "finder-responses", "RESPONSE_ID"]
+						},
+						"description": "Get finder response details"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/finder-responses/:id/accept",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/finder-responses/RESPONSE_ID/accept",
+							"host": ["{{base_url}}"],
+							"path": ["api", "finder-responses", "RESPONSE_ID", "accept"]
+						},
+						"description": "Accept a finder response (item owner only)"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/finder-responses/:id/decline",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/finder-responses/RESPONSE_ID/decline",
+							"host": ["{{base_url}}"],
+							"path": ["api", "finder-responses", "RESPONSE_ID", "decline"]
+						},
+						"description": "Decline a finder response (item owner only)"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/finder-responses/:id/returned",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/finder-responses/RESPONSE_ID/returned",
+							"host": ["{{base_url}}"],
+							"path": ["api", "finder-responses", "RESPONSE_ID", "returned"]
+						},
+						"description": "Mark item as returned (finder only)"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/finder-responses/:id/complete",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/finder-responses/RESPONSE_ID/complete",
+							"host": ["{{base_url}}"],
+							"path": ["api", "finder-responses", "RESPONSE_ID", "complete"]
+						},
+						"description": "Complete the response (item owner confirmation)"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
