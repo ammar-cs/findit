@@ -1,0 +1,40 @@
+@token = paste-your-jwt-token-here
+
+### Get all items
+GET http://localhost:5000/api/items/search
+
+###
+
+### Search with filters
+GET http://localhost:5000/api/items/search?type=lost&category=Electronics&keyword=phone
+
+###
+
+### Create lost item (requires auth)
+POST http://localhost:5000/api/items/lost
+Content-Type: application/json
+Authorization: BEARER {{token}}
+
+{
+  "title": "Lost iPhone 13",
+  "category": "Electronics",
+  "description": "Black iPhone 13 with a cracked screen protector lost near the library",
+  "date": "2025-01-15T10:00:00Z",
+  "location": "Cairo University, Giza, Egypt"
+}
+
+###
+
+### Get single item
+GET http://localhost:5000/api/items/ITEM_ID_HERE
+
+###
+
+### Get my items
+GET http://localhost:5000/api/items/my
+Authorization: BEARER {{token}}
+
+###
+
+### Get nearby items
+GET http://localhost:5000/api/items/nearby?lat=30.0444&lng=31.2357&radius=5

@@ -1,0 +1,41 @@
+services:
+  frontend:
+    build:
+      context: ../findit-frontend
+      dockerfile: Dockerfile
+      args:
+        # Browser calls the backend through the HOST port, not the Docker network
+        - VITE_API_URL=http://localhost:5000
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build: .
+    ports:
+      - "5000:5000"
+    env_file:
+      - config/.env
+    environment:
+      - MONGO_CONNECTION_URI=mongodb://mongo:27017/findit
+      - PORT=5000
+      # Allow requests from the frontend container (served on port 3000)
+      - CLIENT_URL=http://localhost:3000
+    depends_on:
+      - mongo
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo_data:

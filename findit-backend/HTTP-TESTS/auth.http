@@ -1,0 +1,35 @@
+### Signup
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123",
+  "role": "user"
+}
+
+###
+
+### Signin
+POST http://localhost:5000/api/auth/signin
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+###
+
+### Signup validation error test
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+  "name": "",
+  "username": "",
+  "email": "not-an-email",
+  "password": "123"
+}

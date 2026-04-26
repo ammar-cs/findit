@@ -1,0 +1,22 @@
+### Search all items
+GET http://localhost:5000/api/items/search
+
+###
+
+### Search lost electronics
+GET http://localhost:5000/api/items/search?type=lost&category=Electronics
+
+###
+
+### Search by keyword
+GET http://localhost:5000/api/items/search?keyword=phone
+
+###
+
+### Get nearby items
+GET http://localhost:5000/api/items/nearby?lat=30.0444&lng=31.2357&radius=5
+
+###
+
+### Get matches for item
+GET http://localhost:5000/api/items/ITEM_ID_HERE/matches

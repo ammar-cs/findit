@@ -1,0 +1,37 @@
+@token = paste-your-jwt-token-here
+@claimId = paste-claim-id-here
+
+### Submit a claim
+POST http://localhost:5000/api/claims
+Content-Type: application/json
+Authorization: BEARER {{token}}
+
+{
+  "itemId": "FOUND_ITEM_ID_HERE",
+  "description": "This is my wallet, it has a blue leather cover with my initials on it",
+  "uniqueDetails": "Has a small scratch on the back and contains a BUE student ID"
+}
+
+###
+
+### Get claim details
+GET http://localhost:5000/api/claims/{{claimId}}
+Authorization: BEARER {{token}}
+
+###
+
+### Approve claim (finder only)
+PUT http://localhost:5000/api/claims/{{claimId}}/approve
+Authorization: BEARER {{token}}
+
+###
+
+### Reject claim
+PUT http://localhost:5000/api/claims/{{claimId}}/reject
+Authorization: BEARER {{token}}
+
+###
+
+### Complete claim
+PUT http://localhost:5000/api/claims/{{claimId}}/complete
+Authorization: BEARER {{token}}

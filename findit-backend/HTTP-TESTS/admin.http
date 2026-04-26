@@ -1,0 +1,24 @@
+@adminToken = paste-admin-jwt-here
+@itemId = paste-item-id-here
+
+### Get analytics
+GET http://localhost:5000/api/admin/analytics
+Authorization: BEARER {{adminToken}}
+
+###
+
+### Get flagged reports
+GET http://localhost:5000/api/admin/reports
+Authorization: BEARER {{adminToken}}
+
+###
+
+### Remove a listing
+PUT http://localhost:5000/api/admin/reports/{{itemId}}/remove
+Authorization: BEARER {{adminToken}}
+
+###
+
+### Flag an item (any logged in user)
+POST http://localhost:5000/api/admin/flag/{{itemId}}
+Authorization: BEARER {{adminToken}}
