@@ -1,5 +1,4 @@
 const express = require('express')
-const dotenv = require('dotenv')
 const cors = require('cors')
 const path = require('path')
 const { initiateDBConnection } = require('./config/db')
@@ -15,7 +14,12 @@ const historyRouter           = require('./routes/history')
 const evidenceRouter          = require('./routes/evidence')
 const finderResponseRouter    = require('./routes/finderResponse')
 
-dotenv.config({ path: './config/.env' })
+// Load environment variables based on NODE_ENV
+if (process.env.NODE_ENV !== 'production') {
+  // Development: load from .env file
+  require('dotenv').config({ path: './config/.env' })
+}
+// Production: use system environment variables provided by Railway
 
 const PORT = process.env.PORT
 
